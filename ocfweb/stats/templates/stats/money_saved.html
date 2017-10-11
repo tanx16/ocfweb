@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load common %}
+{% load stats %}
+
+{% block content %}
+    <div class="ocf-content-block">
+        {% stats_navbar %}
+        <h2> Money Saved Since {{ start_date }} </h2>
+        <div> 
+            <h3> Printing costs </h3>
+            <br />
+            <table class="table table-striped table-hover">
+                <tr>
+                    <th> Printer </th>
+                    <th> Pages </th>
+                    <th> Cost at library ($0.08/pg)</th>
+                </tr>
+                {% for dict in print_data %}
+                <tr>
+                    <th> {{ dict.name }} </th> 
+                    <th> {{ dict.data }} </th>
+                    <th> ${{ dict.data }}* 0.08</th>
+                </tr>
+                {% endfor %}
+            </table>
+
+            <h3> Hosting costs </h3>
+            <br />
+            <table class="table table-striped table-hover">
+                <tr>
+                    <th> Websites Served </th>
+                    <th> Cost at Wordpress ($25/month)</th>
+                </tr>
+                <tr>
+                    <!---> Need actual way to retrieve # of websites hosted<-->>
+                    <th> {{ account_data.cumulative_group_accounts }} </th> 
+                    <th> ${{ account_data.cumulative_group_accounts }}* 25</th>
+                </tr>
+            </table>
+        </div>
+        
+{% endblock %}

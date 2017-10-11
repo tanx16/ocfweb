@@ -6,6 +6,7 @@ from ocfweb.stats.accounts import stats_accounts
 from ocfweb.stats.daily_graph import daily_graph_image
 from ocfweb.stats.job_frequency import daily_jobs_image
 from ocfweb.stats.mirrors import stats_mirrors
+from ocfweb.stats.money_saved import stats_money
 from ocfweb.stats.printing import pages_printed
 from ocfweb.stats.printing import semester_histogram
 from ocfweb.stats.printing import stats_printing
@@ -35,4 +36,6 @@ urlpatterns = [
     url(r'^printing/weekday-jobs/graph$', weekday_jobs_image, name='weekday_jobs_image'),
 
     url(r'^mirrors/$', stats_mirrors, name='stats_mirrors'),
+
+    url(r'^money_saved/$', stats_money, name='stats_money'),
 ]
