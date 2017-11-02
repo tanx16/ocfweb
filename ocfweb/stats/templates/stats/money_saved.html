@@ -7,10 +7,8 @@
         {% stats_navbar %}
         <h2> Money Saved Since {{ start_date }} </h2>
         <div> 
-            <h3> Printing costs </h3>
-            <br />
-                    <th> Cost at library ($0.08/pg)</th>
-                    <th> ${{ print_data }}* 0.08</th>
+            <h3> Printing costs ($0.08/pg at the library)</h3>
+                    {{ print_data }}
             <h3> Hosting costs </h3>
             <br />
             <table class="table table-striped table-hover">
@@ -19,8 +17,8 @@
                     <th> Cost at Wordpress ($25/month)</th>
                 </tr>
                 <tr>
-                    <th> {{ group_accounts }} </th> 
-                    <th> ${{ group_accounts }}* 25</th>
+                    <th> {{ website_count }} </th> 
+                    <th> ${{ website_count }}* 25</th>
                 </tr>
             </table>
         </div>

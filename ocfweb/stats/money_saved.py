@@ -1,10 +1,9 @@
 from ocflib.lab.stats import current_semester_start
-from ocfweb.stats.printing import _pages_printed_data
-from ocfweb.stats.accounts import _get_account_stats
 from  django.shortcuts import render
 from ocflib.printing.printers import PRINTERS
 from ocflib.printing.quota import get_connection
-from ocflib.vhost import web
+from ocflib.vhost import web, application, mail
+from ocfweb.stats.accounts import _get_account_stats
 
 def stats_money(request):
     return render(
@@ -13,8 +12,8 @@ def stats_money(request):
         {
             'title': 'Savings Statistics',
             'start_date': current_semester_start,
-            'print_data': _stats_printing(),
-            'group_accounts': _get_account_stats()['cumulative_group_accounts'][-1],
+            'print_data': stats_printing(0.08),
+            'website_count': stats_website(),
         },
     )
     # Go to utils/acct/check-dns to see how to aggregate the vhosts
@@ -24,3 +23,16 @@ def _stats_printing():
         c.execute(
                 'SELECT sum((`public_jobs`.`count` * `public_jobs`.`pages`)) AS `sum` FROM `public_jobs` WHERE date(`public_jobs`.`day`) > "2017-08-22";')
     return c.fetchone()['sum']
+
+def stats_printing(cost):
+    return '${:,.2f}'.format(float(_stats_printing())*cost)
+
+def stats_website():
+    domains = set()
+    for primary_domain, vhost_config in web.get_vhosts().items():
+        domains.add(primary_domain)
+    for primary_domain, vhost_config in application.get_app_vhosts().items():
+        domains.add(primary_domain)
+    for vhost in mail.get_mail_vhosts():
+        domains.add(vhost.domain)
+    return len(domains)
