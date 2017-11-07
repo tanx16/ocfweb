@@ -14,6 +14,7 @@ def stats_money(request):
             'start_date': current_semester_start,
             'print_data': stats_printing(0.08),
             'website_count': stats_website(),
+            'website_cost': website_cost(25)
         },
     )
     # Go to utils/acct/check-dns to see how to aggregate the vhosts
@@ -25,7 +26,7 @@ def _stats_printing():
     return c.fetchone()['sum']
 
 def stats_printing(cost):
-    return '${:,.2f}'.format(float(_stats_printing())*cost)
+    return ['{:,.2f}'.format(float(_stats_printing())*cost), _stats_printing()]
 
 def stats_website():
     domains = set()
@@ -36,3 +37,5 @@ def stats_website():
     for vhost in mail.get_mail_vhosts():
         domains.add(vhost.domain)
     return len(domains)
+def website_cost(cost):
+    return stats_website()*cost
