@@ -15,14 +15,29 @@
                     <th> Money Saved </th>
                 </tr>
                 <tr>
-                    <td> Websites Served: {{ website_count }} </td> 
+                    <td> Websites Served: {{ website_data.1 }} </td> 
                     <td> $25/month </td>
-                    <td> ${{ website_cost }} / month</td>
+                    <td> ${{ website_data.0 }} / month</td>
                 </tr>
                 <tr>
-                    <td> Pages printed: {{ print_data.1 }} </td> 
+                    <td> Pages Printed: {{ print_data.1 }} </td> 
                     <td> $0.08/page </td>
                     <td> ${{ print_data.0 }} </td>
+                </tr>
+            </table>
+        </div>
+        <h2> Value Per Student </h2>
+        <div>
+            <table class="table table-striped table-hover">
+                <tr>
+                    <th> Active Accounts Served </th>
+                    <th> Printing Value (100 pg/sem) </th>
+                    <th> Webhosting Value ($2/month) </th>
+                </tr>
+                <tr>
+                    <td> {{ value_data.0 }} </td>
+                    <td> ${{ value_data.1 }} </td>
+                    <td> ${{ value_data.2 }} </td>
                 </tr>
             </table>
         </div>
