@@ -43,11 +43,10 @@ def _stats_students():
     """
     with get_connection() as c:
         c.execute(
-            'SELECT count(distinct `session`.`user`) AS `count` FROM `session` WHERE date(`session`.`start`) > "2017-08-22";'
-                )
-    return c.fetchone()['count']
+            'SELECT * FROM `unique_users_in_lab_count_public` WHERE 1;')
+    return c.fetchone()
     """
-    return 20000 #Dummy data
+    return 8000 #Dummy data
 
 def stats_students():
     return [_stats_students(), 8, _stats_students()*2]
