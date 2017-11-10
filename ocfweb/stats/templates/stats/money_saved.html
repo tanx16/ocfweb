@@ -21,23 +21,25 @@
                 </tr>
                 <tr>
                     <td> Pages Printed: {{ print_data.1 }} </td> 
-                    <td> ${{ constants.0 }}/ page </td>
+                    <td> ${{ constants.0 }} / page </td>
                     <td> ${{ print_data.0 }} </td>
                 </tr>
             </table>
         </div>
-        <h3> Value Per Student </h3>
+        <h3> Student Value </h3>
         <div>
             <table class="table table-striped table-hover">
                 <tr>
                     <th> Active Accounts Served<sup>2</sup></th>
                     <th> Printing Value ({{ constants.1 }} pg / sem) </th>
                     <th> Webhosting Value (${{ constants.3 }} / month) </th>
+                    <th> Total Value </th>
                 </tr>
                 <tr>
                     <td> {{ value_data.0 }} </td>
-                    <td> ${{ value_data.1 }} </td>
-                    <td> ${{ value_data.2 }} </td>
+                    <td> ${{ value_data.1 }} / sem</td>
+                    <td> ${{ value_data.2 }} / sem</td>
+                    <td> ${{ value_data.3 }} / sem</td>
                 </tr>
             </table>
         </div>

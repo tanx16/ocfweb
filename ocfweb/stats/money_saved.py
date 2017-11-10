@@ -7,7 +7,7 @@ from ocflib.vhost import web, application, mail
 PAGE_COST = 0.08
 PAGES_PER_SEMESTER = 100
 GROUP_WEBSITE_COST = 25
-PERSONAL_WEBSITE_COST = 2
+PERSONAL_WEBSITE_COST = 4
 
 def stats_money(request):
     return render(
@@ -22,7 +22,7 @@ def stats_money(request):
             'constants': [PAGE_COST, PAGES_PER_SEMESTER, GROUP_WEBSITE_COST, PERSONAL_WEBSITE_COST],
         },
     )
-# Returns number of pages printed this sememster
+
 def _stats_printing():
     with get_connection() as c:
         c.execute(
@@ -52,6 +52,6 @@ def _stats_students():
     return c.fetchone()['users']
 
 def stats_students(pagecost, pages, webcost):
-    return [_stats_students(), format_money(pagecost*pages), format_money(_stats_students()*webcost)]
+    return [_stats_students(), format_money(pagecost*pages*_stats_students()), format_money(_stats_students()*webcost*4), format_money(pagecost*pages*_stats_students() + _stats_students()*webcost*4)]
 def format_money(cost):
     return '{:,.2f}'.format(float(cost))
