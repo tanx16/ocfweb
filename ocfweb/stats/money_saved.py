@@ -4,6 +4,11 @@ from ocflib.printing.printers import PRINTERS
 from ocflib.printing.quota import get_connection
 from ocflib.vhost import web, application, mail
 
+PAGE_COST = 0.08
+PAGES_PER_SEMESTER = 100
+GROUP_WEBSITE_COST = 25
+PERSONAL_WEBSITE_COST = 2
+
 def stats_money(request):
     return render(
         request,
@@ -11,12 +16,12 @@ def stats_money(request):
         {
             'title': 'Savings Statistics',
             'start_date': current_semester_start,
-            'print_data': stats_printing(0.08),
-            'website_data': stats_website(25),
-            'value_data': stats_students(),
+            'print_data': stats_printing(PAGE_COST),
+            'website_data': stats_website(GROUP_WEBSITE_COST),
+            'value_data': stats_students(PAGE_COST, PAGES_PER_SEMESTER, PERSONAL_WEBSITE_COST),
+            'constants': [PAGE_COST, PAGES_PER_SEMESTER, GROUP_WEBSITE_COST, PERSONAL_WEBSITE_COST],
         },
     )
-    # Go to utils/acct/check-dns to see how to aggregate the vhosts
 # Returns number of pages printed this sememster
 def _stats_printing():
     with get_connection() as c:
@@ -25,7 +30,7 @@ def _stats_printing():
     return c.fetchone()['sum']
 
 def stats_printing(cost):
-    return ['{:,.2f}'.format(float(_stats_printing())*cost), _stats_printing()]
+    return [format_money(float(_stats_printing())*cost), _stats_printing()]
 
 def _stats_website():
     domains = set()
@@ -40,13 +45,13 @@ def stats_website(cost):
     return [_stats_website()*cost, _stats_website()]
 
 def _stats_students():
-    """
-    with get_connection() as c:
+    with get_connection(db='ocfstats') as c:
         c.execute(
-            'SELECT * FROM `unique_users_in_lab_count_public` WHERE 1;')
-    return c.fetchone()
-    """
-    return 8000 #Dummy data
+            'SELECT * FROM `unique_users_in_lab_count_public` WHERE 1;'
+            )
+    return c.fetchone()['users']
 
-def stats_students():
-    return [_stats_students(), 8, _stats_students()*2]
+def stats_students(pagecost, pages, webcost):
+    return [_stats_students(), format_money(pagecost*pages), format_money(_stats_students()*webcost)]
+def format_money(cost):
+    return '{:,.2f}'.format(float(cost))
